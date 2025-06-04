@@ -16,132 +16,288 @@
         })();
     </script>
     <style>
-        /* Existing styles remain the same */
-
-        /* Mobile-specific fixes */
-        @media (max-width: 768px) {
-            .desktop-nav {
-                display: none;
-            }
-            
-            .menu-toggle {
-                display: block;
-            }
-            
-            .video-container {
-                padding-bottom: 56.25%; /* 16:9 for mobile too */
-            }
-            
-            .grid-cols-1, .grid-cols-1 > * {
-                width: 100%;
-            }
-            
-            .project-content, .experience-content, .card {
-                padding: 1.5rem;
-            }
-            
-            .text-5xl {
-                font-size: 2.25rem !important;
-            }
-            
-            .text-6xl {
-                font-size: 2.5rem !important;
-            }
-            
-            .skills-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 0.75rem;
-            }
-            
-            .skill-item {
-                padding: 1rem;
-            }
-            
-            .skill-item h3 {
-                font-size: 1rem;
-            }
-            
-            .skill-item p {
-                font-size: 0.75rem;
-            }
-            
-            .typewriter-container {
-                min-height: 80px;
-            }
-            
-            .typewriter {
-                font-size: 1.5rem;
-                line-height: 1.3;
-            }
-            
-            .hero-buttons {
-                flex-direction: column;
-                gap: 1rem;
-                align-items: center;
-            }
-            
-            .hero-buttons a {
-                width: 100%;
-                max-width: 280px;
-                text-align: center;
-            }
-            
-            .dashboard-container {
-                transform: scale(0.95);
-                transform-origin: top center;
-            }
-            
-            .mobile-menu a {
-                font-size: 1.25rem;
-                padding: 0.5rem 0;
-            }
-            
-            .section-title::after {
-                width: 40px;
-                height: 2px;
-            }
-            
-            .form-input {
-                font-size: 14px;
-                padding: 10px 14px;
-            }
-            
-            .submit-btn {
-                width: 100%;
-                justify-content: center;
-            }
+        :root {
+            --primary: #1a3c34;
+            --primary-light: #2a5c4a;
+            --accent: #34d399;
+            --dark: #0a0a0a;
+            --darker: #141414;
+            --text-light: #f0f0f0;
+            --text-muted: #a0aec0;
         }
         
-        @media (max-width: 480px) {
-            .typewriter {
-                font-size: 1.25rem;
-            }
-            
-            .skills-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .project-content, .experience-content, .card {
-                padding: 1.25rem;
-            }
-            
-            .dashboard-container {
-                transform: scale(0.85);
-            }
-            
-            .mobile-menu a {
-                font-size: 1.1rem;
-            }
-            
-            .text-4xl {
-                font-size: 1.75rem !important;
-            }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--darker) 100%);
+            color: var(--text-light);
+            position: relative;
+            overflow-x: hidden;
         }
         
-        /* Fix for mobile menu toggle */
+        .navbar {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .card {
+            background: linear-gradient(145deg, #121212, var(--primary));
+            border: 1px solid rgba(26, 60, 52, 0.4);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 10%, transparent 40%);
+            transition: transform 0.5s ease;
+            transform: rotate(45deg);
+        }
+        
+        .card:hover::before {
+            transform: rotate(45deg) translate(50%, 50%);
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(26, 60, 52, 0.7);
+        }
+        
+        .glow-button {
+            position: relative;
+            overflow: hidden;
+            background: var(--primary);
+            border: none;
+            transition: all 0.3s ease;
+            color: var(--text-light);
+        }
+        
+        .glow-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: 0.7s;
+        }
+        
+        .glow-button:hover::before {
+            left: 100%;
+        }
+        
+        .glow-button:hover {
+            background: var(--primary-light);
+            box-shadow: 0 0 25px rgba(26, 60, 52, 0.9);
+        }
+        
+        .icon-link {
+            transition: all 0.3s ease;
+        }
+        
+        .icon-link:hover {
+            transform: scale(1.2);
+            color: var(--accent);
+            filter: drop-shadow(0 0 10px rgba(52, 211, 153, 0.8));
+        }
+        
+        /* Enhanced typing animation */
+        .typewriter-container {
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .typewriter {
+            overflow: hidden;
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: .15em;
+            position: relative;
+            text-align: center;
+        }
+        
+        .typewriter-text {
+            display: inline-block;
+            position: relative;
+            padding-right: 10px; /* Space for cursor */
+        }
+        
+        .typewriter-text::after {
+            content: "|";
+            position: absolute;
+            right: 0;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1 }
+            50% { opacity: 0 }
+        }
+        
+        .section-bg {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .section-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(26, 60, 52, 0.2), transparent 70%);
+            pointer-events: none;
+        }
+        
+        .project-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .project-image:hover {
+            transform: scale(1.03);
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        
+        .vercel-link {
+            display: block;
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .experience-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--accent);
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .experience-link:hover {
+            transform: translateX(5px);
+            text-decoration: underline;
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+            color: var(--text-light);
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--accent);
+        }
+        
+        .section-title-center::after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        /* Contact form styles */
+        .form-input {
+            width: 100%;
+            background: rgba(26, 26, 26, 0.8);
+            border: 1px solid rgba(26, 60, 52, 0.4);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            color: var(--text-light);
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.3);
+        }
+        
+        .form-textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .submit-btn:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(26, 60, 52, 0.5);
+        }
+        
+        /* Mobile menu */
         .mobile-menu {
             display: none;
-            background: rgba(10, 10, 10, 0.98);
+            background: rgba(10, 10, 10, 0.95);
             backdrop-filter: blur(20px);
             position: fixed;
             top: 0;
@@ -158,14 +314,82 @@
             display: flex;
         }
         
-        /* Prevent horizontal scrolling */
-        html, body {
-            overflow-x: hidden;
+        .mobile-menu a {
+            color: var(--text-light);
+            font-size: 1.5rem;
+            margin: 1rem 0;
+            text-decoration: none;
+            transition: all 0.3s ease;
         }
         
-        /* Improve touch targets */
-        a, button {
-            touch-action: manipulation;
+        .mobile-menu a:hover {
+            color: var(--accent);
+        }
+        
+        .close-menu {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            color: var(--text-light);
+            cursor: pointer;
+        }
+        
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 768px) {
+            .desktop-nav {
+                display: none;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .video-container {
+                padding-bottom: 75%; /* 4:3 for mobile */
+            }
+            
+            .grid-cols-1, .grid-cols-1 > * {
+                width: 100%;
+            }
+            
+            .project-content, .experience-content {
+                padding: 1.5rem;
+            }
+            
+            .text-5xl {
+                font-size: 2.5rem;
+            }
+            
+            .text-6xl {
+                font-size: 3rem;
+            }
+            
+            .skills-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .typewriter-container {
+                min-height: 100px;
+            }
+            
+            .typewriter {
+                font-size: 1.8rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .typewriter {
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>
@@ -174,13 +398,13 @@
     <nav class="navbar sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
-                <h1 class="text-2xl md:text-3xl font-extrabold text-[#1a3c34] tracking-tight">Rahil Chheda</h1>
-                <div class="desktop-nav flex space-x-6 md:space-x-8">
-                    <a href="#about" class="text-gray-300 hover:text-[#34d399] transition font-medium text-sm md:text-base">About</a>
-                    <a href="#skills" class="text-gray-300 hover:text-[#34d399] transition font-medium text-sm md:text-base">Skills</a>
-                    <a href="#experience" class="text-gray-300 hover:text-[#34d399] transition font-medium text-sm md:text-base">Experience</a>
-                    <a href="#projects" class="text-gray-300 hover:text-[#34d399] transition font-medium text-sm md:text-base">Projects</a>
-                    <a href="#contact" class="text-gray-300 hover:text-[#34d399] transition font-medium text-sm md:text-base">Contact</a>
+                <h1 class="text-3xl font-extrabold text-[#1a3c34] tracking-tight">Rahil Chheda</h1>
+                <div class="desktop-nav flex space-x-8">
+                    <a href="#about" class="text-gray-300 hover:text-[#34d399] transition font-medium">About</a>
+                    <a href="#skills" class="text-gray-300 hover:text-[#34d399] transition font-medium">Skills</a>
+                    <a href="#experience" class="text-gray-300 hover:text-[#34d399] transition font-medium">Experience</a>
+                    <a href="#projects" class="text-gray-300 hover:text-[#34d399] transition font-medium">Projects</a>
+                    <a href="#contact" class="text-gray-300 hover:text-[#34d399] transition font-medium">Contact</a>
                 </div>
                 <button class="menu-toggle">
                     <i class="fas fa-bars"></i>
@@ -199,12 +423,12 @@
         <a href="#contact">Contact</a>
     </div>
 
-    <!-- About Me Section -->
-    <section id="about" class="min-h-screen flex items-center justify-center bg-gradient-to-b from-black to-[#141414] text-white section-bg relative pt-16">
+    <!-- About Me Section with Enhanced Typing Animation -->
+    <section id="about" class="min-h-screen flex items-center justify-center bg-gradient-to-b from-black to-[#141414] text-white section-bg relative">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center fade-in relative z-10">
             <div class="typewriter-container">
                 <div class="typewriter">
-                    <h2 class="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight">
+                    <h2 class="text-5xl sm:text-6xl font-extrabold tracking-tight">
                         Hi, I'm <span class="text-[#34d399] typewriter-text">Rahil Chheda</span>
                     </h2>
                 </div>
@@ -215,93 +439,302 @@
                 Mumbai, Maharashtra
             </div>
             
-            <p class="text-lg md:text-xl text-gray-300 mb-8 mt-6 max-w-2xl mx-auto">
+            <p class="text-xl text-gray-300 mb-8 mt-6 max-w-2xl mx-auto">
                I'm a dynamic professional at the intersection of data, business, and strategy. I thrive on transforming raw data into game-changing insights, crafting innovative solutions that bridge the gap between complex information and actionable business outcomes. My passion? Turning data into a powerful tool for informed decision-making.
             </p>
             
-            <div class="flex flex-col sm:flex-row justify-center gap-4 mt-10 hero-buttons">
-                <a href="#contact" class="glow-button text-white px-6 py-3 md:px-8 md:py-3 rounded-full font-semibold">Get in Touch</a>
-                <a href="#projects" class="border border-[#1a3c34] text-white px-6 py-3 md:px-8 md:py-3 rounded-full font-semibold hover:bg-[#1a3c34] transition">View Projects</a>
+            <div class="flex justify-center space-x-4 mt-10">
+                <a href="#contact" class="glow-button text-white px-8 py-3 rounded-full font-semibold">Get in Touch</a>
+                <a href="#projects" class="border border-[#1a3c34] text-white px-8 py-3 rounded-full font-semibold hover:bg-[#1a3c34] transition">View Projects</a>
             </div>
         </div>
     </section>
 
     <!-- Skills Section -->
-    <section id="skills" class="py-16 md:py-20 bg-[#141414] section-bg relative">
+    <section id="skills" class="py-20 bg-[#141414] section-bg relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 md:mb-16 text-[#34d399] section-title section-title-center">My Skills</h2>
+            <h2 class="text-4xl font-bold text-center mb-16 text-[#34d399] section-title section-title-center">My Skills</h2>
             
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 skills-grid">
-                <!-- Skills items same as before -->
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4 skills-grid">
+                <!-- Programming -->
+                <div class="skill-item text-center p-4 rounded-lg bg-[#1a1a1a] border border-[#1a3c34]">
+                    <i class="fas fa-code text-2xl mb-3 text-[#34d399]"></i>
+                    <h3 class="font-bold mb-1">Programming</h3>
+                    <p class="text-gray-400 text-sm">SQL, Python, R</p>
+                </div>
+                
+                <!-- Databases & Frameworks -->
+                <div class="skill-item text-center p-4 rounded-lg bg-[#1a1a1a] border border-[#1a3c34]">
+                    <i class="fas fa-database text-2xl mb-3 text-[#34d399]"></i>
+                    <h3 class="font-bold mb-1">Databases & Frameworks</h3>
+                    <p class="text-gray-400 text-sm">MySQL, BigQuery, MongoDB, Flask</p>
+                </div>
+                
+                <!-- Data Analysis & Visualization -->
+                <div class="skill-item text-center p-4 rounded-lg bg-[#1a1a1a] border border-[#1a3c34]">
+                    <i class="fas fa-chart-line text-2xl mb-3 text-[#34d399]"></i>
+                    <h3 class="font-bold mb-1">Data Analysis & Visualization</h3>
+                    <p class="text-gray-400 text-sm">Pandas, NumPy, Matplotlib, Seaborn</p>
+                </div>
+                
+                <!-- BI Tools -->
+                <div class="skill-item text-center p-4 rounded-lg bg-[#1a1a1a] border border-[#1a3c34]">
+                    <i class="fas fa-chart-pie text-2xl mb-3 text-[#34d399]"></i>
+                    <h3 class="font-bold mb-1">BI Tools</h3>
+                    <p class="text-gray-400 text-sm">Tableau, Power BI, Excel, Google Analytics</p>
+                </div>
+                
+                <!-- Machine Learning & NLP -->
+                <div class="skill-item text-center p-4 rounded-lg bg-[#1a1a1a] border border-[#1a3c34]">
+                    <i class="fas fa-brain text-2xl mb-3 text-[#34d399]"></i>
+                    <h3 class="font-bold mb-1">ML & NLP</h3>
+                    <p class="text-gray-400 text-sm">Scikit-learn, Regression, Clustering, NLP</p>
+                </div>
+                
+                <!-- Frontend & Backend Tools -->
+                <div class="skill-item text-center p-4 rounded-lg bg-[#1a1a1a] border border-[#1a3c34]">
+                    <i class="fas fa-laptop-code text-2xl mb-3 text-[#34d399]"></i>
+                    <h3 class="font-bold mb-1">Frontend & Backend</h3>
+                    <p class="text-gray-400 text-sm">Next.js, React.js, Tailwind CSS, JavaScript, Express.js</p>
+                </div>
+                
+                <!-- Tools & Platforms -->
+                <div class="skill-item text-center p-4 rounded-lg bg-[#1a1a1a] border border-[#1a3c34]">
+                    <i class="fas fa-tools text-2xl mb-3 text-[#34d399]"></i>
+                    <h3 class="font-bold mb-1">Tools & Platforms</h3>
+                    <p class="text-gray-400 text-sm">Docker, Git, Jira, Canva, Google Sheets, uvicorn, Railway, Vercel, Lovable, Bolt</p>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Experience Section -->
-    <section id="experience" class="py-16 md:py-20 section-bg relative">
+    <section id="experience" class="py-20 section-bg relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 md:mb-16 text-[#34d399] section-title section-title-center">Experience</h2>
+            <h2 class="text-4xl font-bold text-center mb-16 text-[#34d399] section-title section-title-center">Experience</h2>
             
-            <div class="space-y-8 md:space-y-10 max-w-4xl mx-auto">
-                <!-- Experience items same as before -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Projects Section -->
-    <section id="projects" class="py-16 md:py-20 bg-[#141414] section-bg relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 md:mb-16 text-[#34d399] section-title section-title-center">My Projects</h2>
-            
-            <div class="grid grid-cols-1 gap-10 md:gap-16 max-w-5xl mx-auto">
-                <!-- Project 1 -->
-                <div class="project-card card p-5 md:p-8 rounded-xl shadow-lg fade-in">
-                    <!-- Project content same as before -->
+            <div class="space-y-10 max-w-4xl mx-auto">
+                <!-- Experience 1 -->
+                <div class="card p-8 rounded-xl shadow-lg fade-in">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
+                        <h3 class="text-2xl font-semibold text-white">Research Intern</h3>
+                        <span class="text-[#34d399] font-medium bg-[#1a3c34]/20 px-3 py-1 rounded-full mt-2 md:mt-0">August 2024 – September 2024</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">Indian Institute of Technology, Patna</p>
+                    <div class="text-gray-300 space-y-4">
+                        <p>Engineered an LLM hallucination-reduction pipeline for ChatGPT that fact-checked medical outputs against structured knowledge bases. Trained similarity models achieving >90% accuracy in detecting factual errors. Boosted reliability of AI-generated medical advice by cutting unsafe outputs by 35%. This project involved extensive data preprocessing and model tuning, and the results were presented to the research team for further development.</p>
+                    </div>
                 </div>
                 
-                <!-- Project 2 -->
-                <div class="project-card card p-5 md:p-8 rounded-xl shadow-lg fade-in">
-                    <!-- Project content same as before -->
-                </div>
-                
-                <!-- Project 3 -->
-                <div class="project-card card p-5 md:p-8 rounded-xl shadow-lg fade-in">
-                    <div class="project-content">
-                        <!-- ... existing content ... -->
-                        
-                        <!-- Dashboard Screenshot Section -->
-                        <div class="dashboard-container mt-4 mb-4 md:mt-6 md:mb-6 rounded-lg overflow-hidden">
-                            <!-- ... existing dashboard code ... -->
-                        </div>
+                <!-- Experience 2 -->
+                <div class="card p-8 rounded-xl shadow-lg fade-in">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
+                        <h3 class="text-2xl font-semibold text-white">Data Analyst Intern</h3>
+                        <span class="text-[#34d399] font-medium bg-[#1a3c34]/20 px-3 py-1 rounded-full mt-2 md:mt-0">June 2024 – August 2024</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">Evoastra Ventures, Mumbai</p>
+                    <div class="text-gray-300 space-y-4">
+                        <p>Cleaned datasets from SQL and Excel sources, resolving errors and missing values. Created Power BI dashboards to visualize analysed data trends. Supported senior analysts and marketing teams on 2 projects by providing data insights. Additionally, I automated several data cleaning processes using Python scripts, which reduced the time spent on data preparation by 20%.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="py-16 md:py-20 section-bg relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 md:mb-16 text-[#34d399] section-title section-title-center">Contact Me</h2>
+  <!-- Projects Section -->
+<section id="projects" class="py-20 bg-[#141414] section-bg relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-4xl font-bold text-center mb-16 text-[#34d399] section-title section-title-center">My Projects</h2>
+        
+        <div class="grid grid-cols-1 gap-16 max-w-5xl mx-auto">
+            <!-- Project 1 -->
+            <div class="project-card card p-8 rounded-xl shadow-lg fade-in">
+                <div class="project-content">
+                    <div class="flex flex-wrap items-center justify-between mb-6">
+                        <h3 class="text-2xl font-semibold text-white">CIRA: Cultural Integration Risk Assessment in M&A</h3>
+                    </div>
+                    
+                    <p class="text-gray-400 mb-6">Engineered robust data preprocessing workflows using BERT tokenizer and custom keyword-based feature extraction to vectorize unstructured text across cultural dimensions. Designed a weighted cultural compatibility formula incorporating six organizational dimensions to quantify integration risk in M&A scenarios.</p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="bg-[#1a3c34]/30 text-[#34d399] px-3 py-1 rounded-full text-sm">NLP</span>
+                        <span class="bg-[#1a3c34]/30 text-[#34d399] px-3 py-1 rounded-full text-sm">Machine Learning</span>
+                        <span class="bg-[#1a3c34]/30 text-[#34d399] px-3 py-1 rounded-full text-sm">Business Analysis</span>
+                    </div>
+                    
+                    <h4 class="text-lg font-medium mb-4 text-[#34d399]">Project Demo</h4>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/vGZbqTW0Vvs?si=1tUhEq7ODr_Bsv9h" title="CIRA Project Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <!-- Added Vercel link -->
+                    <a href="https://v0-cira-one.vercel.app/" class="block mt-4 text-[#34d399] hover:underline" target="_blank">
+                        <i class="fas fa-external-link-alt mr-2"></i>View Live Project on Vercel
+                    </a>
+                </div>
+            </div>
             
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 max-w-5xl mx-auto">
+            <!-- Project 2 -->
+            <div class="project-card card p-8 rounded-xl shadow-lg fade-in">
+                <div class="project-content">
+                    <div class="flex flex-wrap items-center justify-between mb-6">
+                        <h3 class="text-2xl font-semibold text-white">ResuMatch AI: AI-Powered Resume Matching Engine</h3>
+                    </div>
+                    
+                    <p class="text-gray-400 mb-6">Developed an NLP-powered system to analyse resumes, calculate resume scores, and suggest personalized job role recommendations. Extracted skills and experience using Spacy and OpenAI API. Deployed a full-stack FastAPI and Next.js app with Docker and Vercel for real-time resume evaluation and insights.</p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="bg-[#1a3c34]/30 text-[#34d399] px-3 py-1 rounded-full text-sm">AI Matching</span>
+                        <span class="bg-[#1a3c34]/30 text-[#34d399] px-3 py-1 rounded-full text-sm">NLP</span>
+                        <span class="bg-[#1a3c34]/30 text-[#34d399] px-3 py-1 rounded-full text-sm">Full-Stack</span>
+                    </div>
+                    
+                    <h4 class="text-lg font-medium mb-4 text-[#34d399]">Project Demo</h4>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/E4PMTH31bsY?si=brmwZyFsnMjGfNnu" title="ResuMatch AI Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <!-- Added Vercel link -->
+                    <a href="https://resume-black-glow.lovable.app/" class="block mt-4 text-[#34d399] hover:underline" target="_blank">
+                        <i class="fas fa-external-link-alt mr-2"></i>View Live Project
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Project 3 -->
+<div class="project-card card p-8 rounded-xl shadow-lg fade-in">
+    <div class="project-content">
+        <div class="flex flex-wrap items-center justify-between mb-6">
+            <h3 class="text-2xl font-semibold text-white">NBA MVP Performance Analytics Dashboard</h3>
+        </div>
+        
+        <p class="text-gray-400 mb-6">Analyzed NBA player statistics using Power BI to create a comprehensive MVP candidate evaluation dashboard with interactive visualizations for steals, assists, rebounds, and scoring metrics. Implemented custom DAX formulas to calculate weighted MVP scores. Developed multi-dimensional player comparison framework for basketball analytics stakeholders.</p>
+        
+        <div class="flex flex-wrap gap-2 mb-6">
+            <span class="bg-[#1a3c34]/30 text-[#34d399] px-3 py-1 rounded-full text-sm">Data Visualization</span>
+            <span class="bg-[#1a3c34]/30 text-[#34d399] px-3 py-1 rounded-full text-sm">Power BI</span>
+            <span class="bg-[#1a3c34]/30 text-[#34d399] px-3 py-1 rounded-full text-sm">Sports Analytics</span>
+        </div>
+        
+        <!-- Dashboard Screenshot Section -->
+        <div class="dashboard-container mt-6 mb-6 rounded-lg overflow-hidden">
+            <div class="dashboard-header bg-[#1a1a1a] py-2 px-4 border-b border-[#2a2a2a] flex items-center">
+                <div class="flex space-x-2 mr-4">
+                    <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                    <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                    <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                </div>
+                <div class="text-xs text-gray-400 flex-1 text-center">
+                    Dashboard.PowerBI.com
+                </div>
+            </div>
+            <div class="bg-[#0a0a0a] p-4">
+                <div class="dashboard-image-wrapper border border-[#2a2a2a] rounded-lg overflow-hidden">
+                    <img src="Pic.png" 
+                         alt="NBA MVP Analytics Dashboard" 
+                         class="w-full h-auto">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Fixed Power BI link -->
+        <a href="https://app.powerbi.com/view?r=eyJrIjoiNDk1MTI4ZjktMWM3NS00MWNhLWE2ZTktMGZkNjgwMWNjMzgzIiwidCI6ImQxZjE0MzQ4LWYxYjUtNGEwOS1hYzk5LTdlYmYyMTNjYmM4MSIsImMiOjEwfQ%3D%3D" 
+           class="block text-[#34d399] hover:underline" target="_blank">
+            <i class="fas fa-external-link-alt mr-2"></i>View Interactive Power BI Dashboard
+        </a>
+    </div>
+</div>
+</section>
+
+    <!-- Contact Section with Email Form -->
+    <section id="contact" class="py-20 section-bg relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold text-center mb-16 text-[#34d399] section-title section-title-center">Contact Me</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
                 <!-- Contact Information -->
                 <div class="fade-in">
-                    <!-- ... existing contact info ... -->
+                    <h3 class="text-2xl font-bold mb-8 text-[#34d399]">Get in touch</h3>
+                    
+                    <div class="space-y-6 mb-10">
+                        <div class="flex items-start">
+                            <div class="contact-icon mr-4 mt-1">
+                                <i class="fas fa-map-marker-alt text-[#34d399]"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-semibold text-white">Location</h4>
+                                <p class="text-gray-400">Mumbai, Maharashtra</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="contact-icon mr-4 mt-1">
+                                <i class="fas fa-envelope text-[#34d399]"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-semibold text-white">Email</h4>
+                                <p class="text-gray-400">rahilchheda11@gmail.com</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p class="text-gray-300 mb-8">Ready to collaborate? Connect with me via email or social media. I'm always open to discussing new projects, creative ideas or opportunities to be part of your vision.</p>
+                    
+                    <div class="mt-8">
+                        <h4 class="text-lg font-semibold text-white mb-6">Connect with me</h4>
+                        <div class="flex space-x-6">
+                            <a href="https://www.linkedin.com/in/rahilchheda20/" class="text-gray-300 hover:text-[#34d399] transition icon-link" title="LinkedIn" target="_blank">
+                                <i class="fab fa-linkedin fa-2x"></i>
+                            </a>
+                            <a href="https://github.com/rahilchheda" class="text-gray-300 hover:text-[#34d399] transition icon-link" title="GitHub" target="_blank">
+                                <i class="fab fa-github fa-2x"></i>
+                            </a>
+                            <a href="https://x.com/rahil_chheda" class="text-gray-300 hover:text-[#34d399] transition icon-link" title="X" target="_blank">
+                                <i class="fab fa-x-twitter fa-2x"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- Contact Form -->
                 <div class="contact-form fade-in">
-                    <!-- ... existing form ... -->
+                    <h3 class="text-2xl font-bold mb-6 text-[#34d399]">Send me a message</h3>
+                    <form id="emailForm">
+                        <div>
+                            <input type="text" class="form-input" placeholder="Your Name" id="name" required>
+                        </div>
+                        <div>
+                            <input type="email" class="form-input" placeholder="Your Email" id="email" required>
+                        </div>
+                        <div>
+                            <input type="text" class="form-input" placeholder="Subject" id="subject">
+                        </div>
+                        <div>
+                            <textarea class="form-input form-textarea" placeholder="Your Message" id="message" required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn glow-button">
+                            <i class="fas fa-paper-plane mr-2"></i> Send Message
+                        </button>
+                    </form>
+                    <div id="form-message" class="mt-4 text-center hidden"></div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-black py-6 md:py-8 border-t border-gray-800">
+    <footer class="bg-black py-8 border-t border-gray-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <!-- ... existing footer ... -->
+            <div class="flex justify-center space-x-6 mb-4">
+                <a href="https://www.linkedin.com/in/rahilchheda20/" class="text-gray-400 hover:text-[#34d399] transition" target="_blank">
+                    <i class="fab fa-linkedin fa-lg"></i>
+                </a>
+                <a href="https://github.com/rahilchheda" class="text-gray-400 hover:text-[#34d399] transition" target="_blank">
+                    <i class="fab fa-github fa-lg"></i>
+                </a>
+                <a href="https://x.com/rahil_chheda" class="text-gray-400 hover:text-[#34d399] transition" target="_blank">
+                    <i class="fab fa-x-twitter fa-lg"></i>
+                </a>
+            </div>
+            <p class="text-gray-500">© 2025 Rahil Chheda. All rights reserved.</p>
         </div>
     </footer>
 
@@ -310,41 +743,22 @@
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                    
-                    // Close mobile menu if open
-                    document.querySelector('.mobile-menu').classList.remove('active');
-                }
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                
+                // Close mobile menu if open
+                document.querySelector('.mobile-menu').classList.remove('active');
             });
         });
 
-        // Mobile menu toggle - FIXED
+        // Mobile menu toggle
         document.querySelector('.menu-toggle').addEventListener('click', () => {
             document.querySelector('.mobile-menu').classList.add('active');
-            document.body.style.overflow = 'hidden'; // Prevent background scrolling
         });
         
         document.querySelector('.close-menu').addEventListener('click', () => {
             document.querySelector('.mobile-menu').classList.remove('active');
-            document.body.style.overflow = ''; // Restore scrolling
-        });
-
-        // Close menu when clicking outside
-        document.addEventListener('click', (e) => {
-            const menu = document.querySelector('.mobile-menu');
-            const toggleBtn = document.querySelector('.menu-toggle');
-            
-            if (menu.classList.contains('active') && 
-                !menu.contains(e.target) && 
-                e.target !== toggleBtn && 
-                !toggleBtn.contains(e.target)) {
-                menu.classList.remove('active');
-                document.body.style.overflow = '';
-            }
         });
 
         // Fade-in animation on scroll
@@ -355,18 +769,126 @@
                     entry.target.classList.add('visible');
                 }
             });
-        }, { threshold: 0.1 });
+        }, { threshold: 0.2 });
 
         fadeIns.forEach(element => observer.observe(element));
 
-        // Enhanced Typewriter effect
-        // ... existing typewriter code ...
+        // Enhanced Typewriter effect for name and roles
+        const typewriterEffect = () => {
+            const texts = ["Rahil Chheda", "a Data Analyst", "a Business Analyst"];
+            let textIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+            let typingSpeed = 100;
+            let pauseTime = 2000; // Time to pause after completing a text
+            
+            const type = () => {
+                const currentText = texts[textIndex];
+                const typewriterElement = document.querySelector('.typewriter-text');
+                
+                if (isDeleting) {
+                    // Deleting characters
+                    typewriterElement.textContent = currentText.substring(0, charIndex - 1);
+                    charIndex--;
+                    typingSpeed = 50; // Faster deletion
+                } else {
+                    // Adding characters
+                    typewriterElement.textContent = currentText.substring(0, charIndex + 1);
+                    charIndex++;
+                    typingSpeed = charIndex % 3 === 0 ? 250 : 100; // Variable typing speed
+                }
+                
+                // Determine what to do next
+                if (!isDeleting && charIndex === currentText.length) {
+                    // Pause at the end of typing
+                    typingSpeed = pauseTime;
+                    isDeleting = true;
+                } else if (isDeleting && charIndex === 0) {
+                    // Move to next text after deleting
+                    isDeleting = false;
+                    textIndex = (textIndex + 1) % texts.length;
+                    typingSpeed = 500; // Pause before starting next text
+                }
+                
+                setTimeout(type, typingSpeed);
+            };
+            
+            type();
+        };
+        
+        // Start typewriter effect when page loads
+        window.addEventListener('load', typewriterEffect);
 
         // Email form submission
-        // ... existing email code ...
+        function sendMail() {
+            let parms = {
+                name: document.getElementById("name").value,
+                email: document.getElementById("email").value,
+                subject: document.getElementById("subject").value,
+                message: document.getElementById("message").value,
+            }
+
+            const submitBtn = document.querySelector('#emailForm button[type="submit"]');
+            const formMessage = document.getElementById('form-message');
+            const originalText = submitBtn.innerHTML;
+            
+            // Disable button during submission
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Sending...';
+            
+            emailjs.send("service_ud0itch", "template_wje0jns", parms)
+                .then(() => {
+                    formMessage.textContent = 'Message sent successfully!';
+                    formMessage.className = 'mt-4 text-center text-[#34d399]';
+                    formMessage.classList.remove('hidden');
+                    
+                    submitBtn.innerHTML = '<i class="fas fa-check mr-2"></i> Sent!';
+                    submitBtn.style.backgroundColor = '#1a3c34';
+                    
+                    // Reset form after 3 seconds
+                    setTimeout(() => {
+                        document.getElementById('emailForm').reset();
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.style.backgroundColor = '';
+                        submitBtn.disabled = false;
+                        formMessage.classList.add('hidden');
+                    }, 3000);
+                }, (error) => {
+                    formMessage.textContent = 'Failed to send message. Please try again later.';
+                    formMessage.className = 'mt-4 text-center text-red-400';
+                    formMessage.classList.remove('hidden');
+                    console.error('EmailJS error:', error);
+                    
+                    submitBtn.innerHTML = '<i class="fas fa-exclamation-triangle mr-2"></i> Try Again';
+                    submitBtn.disabled = false;
+                    
+                    setTimeout(() => {
+                        formMessage.classList.add('hidden');
+                        submitBtn.innerHTML = originalText;
+                    }, 5000);
+                });
+        }
+
+        // Attach sendMail to form submission
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            sendMail();
+        });
 
         // Mac-like hover effect for icons
-        // ... existing icon effects ...
+        document.querySelectorAll('.icon-link').forEach(icon => {
+            icon.addEventListener('mouseenter', () => {
+                icon.style.transform = 'scale(1.2)';
+                icon.style.color = '#34d399';
+                icon.style.filter = 'drop-shadow(0 0 10px rgba(52, 211, 153, 0.8))';
+            });
+            
+            icon.addEventListener('mouseleave', () => {
+                icon.style.transform = '';
+                icon.style.color = '';
+                icon.style.filter = '';
+            });
+        });
     </script>
 </body>
 </html>
