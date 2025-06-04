@@ -391,6 +391,35 @@
                 font-size: 1.5rem;
             }
         }
+              /* Add to your existing CSS */
+.skill-item {
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.skill-item:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 10px 25px rgba(26, 60, 52, 0.6);
+  border-color: #34d399;
+  background: linear-gradient(145deg, #121212, #1a3c34);
+}
+
+.skill-item:hover i {
+  transform: scale(1.2);
+  color: #34d399;
+  filter: drop-shadow(0 0 8px rgba(52, 211, 153, 0.6));
+}
+
+.skill-item i {
+  transition: all 0.3s ease;
+}
+
+.skill-item h3 {
+  transition: color 0.3s ease;
+}
+
+.skill-item:hover h3 {
+  color: #34d399;
+}
     </style>
 </head>
 <body>
@@ -502,7 +531,14 @@
                 <div class="skill-item text-center p-4 rounded-lg bg-[#1a1a1a] border border-[#1a3c34]">
                     <i class="fas fa-tools text-2xl mb-3 text-[#34d399]"></i>
                     <h3 class="font-bold mb-1">Tools & Platforms</h3>
-                    <p class="text-gray-400 text-sm">Docker, Git, Jira, Canva, Google Sheets, uvicorn, Railway, Vercel, Lovable, Bolt</p>
+                    <p class="text-gray-400 text-sm">Docker, Git, Jira, Canva, Google Sheets, Uvicorn, Railway, Vercel, Lovable, Bolt</p>
+                </div>
+
+                <!-- Soft Skills -->
+                <div class="skill-item text-center p-4 rounded-lg bg-[#1a1a1a] border border-[#1a3c34]">
+                    <i class="fas fa-laptop-code text-2xl mb-3 text-[#34d399]"></i>
+                    <h3 class="font-bold mb-1">Soft Skills</h3>
+                    <p class="text-gray-400 text-sm">Communication, Teamwork, Problem Solving, Leadership</p>
                 </div>
             </div>
         </div>
